@@ -131,12 +131,17 @@ function changeWeight(itemId) {
 }
 
 function changeShelfLife(itemId) {
-  const item = items.find(item => item.id === itemId);
   const newShelfLife = prompt('Введите срок хранения');
-  if (newShelfLife !== null) {
-    item.shelfLife = parseInt(newShelfLife) || 0;
-    renderItems(items);
-  }
+
+  fetch(`http://127.0.0.1:3000/updateShelfLife`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id: itemId, shelf_life: newShelfLife }),
+  })
+    .then(() => alert('Success!'))
+    .catch(err => console.log('Fail'));
 }
 
 function changeShipper(itemId) {

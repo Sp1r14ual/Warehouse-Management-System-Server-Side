@@ -100,6 +100,20 @@ app.put('/updateWeight', (req, res) => {
     );
 });
 
+app.put('/updateShelfLife', (req, res) => {
+  const { id, shelf_life } = req.body;
+
+  const result = client
+    .query(`UPDATE items SET shelf_life = $1 WHERE id = $2 RETURNING *`, [
+      shelf_life,
+      id,
+    ])
+    .then(data => res.json(data.rows))
+    .catch(err =>
+      console.error(`Error updating location for item ${id}:`, err)
+    );
+});
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

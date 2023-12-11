@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Админ панель</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="itemForm">
+      <label for="itemName">Название товара</label>
+      <input type="text" id="itemName" />
+      <label for="vendorCode">Артикул</label>
+      <input type="text" id="vendorCode" />
+      <label for="quantity">Количество товара</label>
+      <input type="number" id="quantity" min="0" value="0" />
+      <label for="weight">Вес (кг):</label>
+      <input type="number" id="weight" min="0" value="0" />
+      <label for="shelfLife">Срок хранения (дней)</label>
+      <input type="number" id="shelfLife" min="0" value="0" />
+      <label for="shipper">Поставщик</label>
+      <input type="text" id="shipper" />
+      <label for="location">Место на складе</label>
+      <input type="text" id="location" value="Место по умолчанию" />
+      <button onclick="addItem()">Добавить</button>
+    </div>
+
+    <div id="itemList">
+      <ul id="items"></ul>
+    </div>
+
+    <div id="searchForm">
+      <label for="searchTerm">Поиск товара</label>
+      <input
+        type="text"
+        id="searchTerm"
+        placeholder="Введите данные для поиска"
+      />
+      <label for="searchCriteria">Критерий поиска:</label>
+      <select id="searchCriteria">
+        <option value="itemName">Название товара</option>
+        <option value="vendorCode">Артикул</option>
+        <option value="quantity">Количество товара</option>
+        <option value="weight">Вес</option>
+        <option value="shelfLife">Срок хранения</option>
+        <option value="shipper">Поставщик</option>
+        <option value="location">Место на складе</option>
+      </select>
+      <button onclick="searchItems()">Искать</button>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

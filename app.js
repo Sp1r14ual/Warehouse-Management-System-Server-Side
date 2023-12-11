@@ -61,17 +61,29 @@ app.post('/insert', (req, res) => {
 app.put('/updateLocation', (req, res) => {
   const { id, location } = req.body;
 
-  try {
-    const result = client
-      .query(`UPDATE items SET location = $1 WHERE id = $2 RETURNING *`, [
-        location,
-        id,
-      ])
-      .then(data => res.json(data.rows));
-  } catch (error) {
-    console.error(`Error updating location for item ${itemId}:`, error);
-    res.status(500).send('Internal Server Error');
-  }
+  const result = client
+    .query(`UPDATE items SET location = $1 WHERE id = $2 RETURNING *`, [
+      location,
+      id,
+    ])
+    .then(data => res.json(data.rows))
+    .catch(err =>
+      console.error(`Error updating location for item ${id}:`, err)
+    );
+});
+
+app.put('/updateQuantity', (req, res) => {
+  const { id, quantity } = req.body;
+
+  const result = client
+    .query(`UPDATE items SET quantity = $1 WHERE id = $2 RETURNING *`, [
+      quantity,
+      id,
+    ])
+    .then(data => res.json(data.rows))
+    .catch(err =>
+      console.error(`Error updating location for item ${id}:`, err)
+    );
 });
 
 app.listen(port, () => {

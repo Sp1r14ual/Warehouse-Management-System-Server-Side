@@ -89,12 +89,7 @@ function deleteItem(itemId) {
 }
 
 function changeLocation(itemId) {
-  // const item = items.find(item => item.id === itemId);
   const newLocation = prompt('Введите место на складе');
-  //   if (newLocation !== null) {
-  //     item.location = newLocation;
-  //     renderItems(items);
-  //   }
 
   fetch(`http://127.0.0.1:3000/updateLocation`, {
     method: 'PUT',
@@ -105,23 +100,20 @@ function changeLocation(itemId) {
   })
     .then(() => alert('Success!'))
     .catch(err => console.log('Fail'));
-  // .then(response => response.json())
-  // .then(updatedItem => {
-  //   items = items.map(item => (item.id === itemId ? updatedItem : item));
-  //   renderItems(items);
-  // })
-  // .catch(error =>
-  //   console.error(`Error changing location for item ${itemId}:`, error)
-  // );
 }
 
 function changeQuantity(itemId) {
-  const item = items.find(item => item.id === itemId);
   const newQuantity = prompt('Введите количество');
-  if (newQuantity !== null) {
-    item.quantity = parseInt(newQuantity) || 0;
-    renderItems(items);
-  }
+
+  fetch(`http://127.0.0.1:3000/updateQuantity`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id: itemId, quantity: newQuantity }),
+  })
+    .then(() => alert('Success!'))
+    .catch(err => console.log('Fail'));
 }
 
 function changeWeight(itemId) {

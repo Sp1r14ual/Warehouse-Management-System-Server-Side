@@ -58,6 +58,22 @@ app.post('/insert', (req, res) => {
   );
 });
 
+app.put('/updateLocation', (req, res) => {
+  const { id, location } = req.body;
+
+  try {
+    const result = client
+      .query(`UPDATE items SET location = $1 WHERE id = $2 RETURNING *`, [
+        location,
+        id,
+      ])
+      .then(data => res.json(data.rows));
+  } catch (error) {
+    console.error(`Error updating location for item ${itemId}:`, error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

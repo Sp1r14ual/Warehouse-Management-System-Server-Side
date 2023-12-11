@@ -145,12 +145,7 @@ function changeShelfLife(itemId) {
 }
 
 function changeShipper(itemId) {
-  //   const item = items.find(item => item.id === itemId);
   const newShipper = prompt('Введите поставщика');
-  //   if (newShipper !== null) {
-  //     item.shipper = newShipper;
-  //     renderItems(items);
-  //   }
 
   fetch(`http://127.0.0.1:3000/updateShipper`, {
     method: 'PUT',
@@ -164,12 +159,17 @@ function changeShipper(itemId) {
 }
 
 function changeVendorCode(itemId) {
-  const item = items.find(item => item.id === itemId);
   const newVendorCode = prompt('Введите артикул');
-  if (newVendorCode !== null) {
-    item.vendorCode = newVendorCode;
-    renderItems(items);
-  }
+
+  fetch(`http://127.0.0.1:3000/updateVendorCode`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id: itemId, vendor_code: newVendorCode }),
+  })
+    .then(() => alert('Success!'))
+    .catch(err => console.log('Fail'));
 }
 
 function addItem() {

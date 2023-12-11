@@ -128,6 +128,20 @@ app.put('/updateShipper', (req, res) => {
     );
 });
 
+app.put('/updateVendorCode', (req, res) => {
+  const { id, vendor_code } = req.body;
+
+  const result = client
+    .query(`UPDATE items SET vendor_code = $1 WHERE id = $2 RETURNING *`, [
+      vendor_code,
+      id,
+    ])
+    .then(data => res.json(data.rows))
+    .catch(err =>
+      console.error(`Error updating location for item ${id}:`, err)
+    );
+});
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

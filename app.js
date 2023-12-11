@@ -114,6 +114,20 @@ app.put('/updateShelfLife', (req, res) => {
     );
 });
 
+app.put('/updateShipper', (req, res) => {
+  const { id, shipper } = req.body;
+
+  const result = client
+    .query(`UPDATE items SET shipper = $1 WHERE id = $2 RETURNING *`, [
+      shipper,
+      id,
+    ])
+    .then(data => res.json(data.rows))
+    .catch(err =>
+      console.error(`Error updating location for item ${id}:`, err)
+    );
+});
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

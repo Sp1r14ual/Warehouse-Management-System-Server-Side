@@ -145,12 +145,22 @@ function changeShelfLife(itemId) {
 }
 
 function changeShipper(itemId) {
-  const item = items.find(item => item.id === itemId);
+  //   const item = items.find(item => item.id === itemId);
   const newShipper = prompt('Введите поставщика');
-  if (newShipper !== null) {
-    item.shipper = newShipper;
-    renderItems(items);
-  }
+  //   if (newShipper !== null) {
+  //     item.shipper = newShipper;
+  //     renderItems(items);
+  //   }
+
+  fetch(`http://127.0.0.1:3000/updateShipper`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id: itemId, shipper: newShipper }),
+  })
+    .then(() => alert('Success!'))
+    .catch(err => console.log('Fail'));
 }
 
 function changeVendorCode(itemId) {

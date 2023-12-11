@@ -117,12 +117,17 @@ function changeQuantity(itemId) {
 }
 
 function changeWeight(itemId) {
-  const item = items.find(item => item.id === itemId);
   const newWeight = prompt('Введите вес');
-  if (newWeight !== null) {
-    item.weight = parseFloat(newWeight) || 0;
-    renderItems(items);
-  }
+
+  fetch(`http://127.0.0.1:3000/updateWeight`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id: itemId, weight: newWeight }),
+  })
+    .then(() => alert('Success!'))
+    .catch(err => console.log('Fail'));
 }
 
 function changeShelfLife(itemId) {

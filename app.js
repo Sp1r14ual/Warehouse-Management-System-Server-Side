@@ -86,6 +86,20 @@ app.put('/updateQuantity', (req, res) => {
     );
 });
 
+app.put('/updateWeight', (req, res) => {
+  const { id, weight } = req.body;
+
+  const result = client
+    .query(`UPDATE items SET weight = $1 WHERE id = $2 RETURNING *`, [
+      weight,
+      id,
+    ])
+    .then(data => res.json(data.rows))
+    .catch(err =>
+      console.error(`Error updating location for item ${id}:`, err)
+    );
+});
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

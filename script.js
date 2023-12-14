@@ -77,10 +77,22 @@ function writeOffItem(itemId) {
     const confirmWriteOff = confirm(
       `Вы уверены, что хотите списать товар?\nПричина: ${reason}`
     );
-    if (confirmWriteOff) {
-      deleteItem(itemId);
+    if (!confirmWriteOff) {
+      return;
     }
   }
+
+  fetch(`http://127.0.0.1:3000/deleteItem/${itemId}`, {
+    method: 'DELETE',
+  })
+    .then(response => response.json())
+    .then(deletedItem => {
+      items = items.filter(item => item.id !== itemId);
+      renderItems(items);
+    })
+    .catch(error => console.error(`Error writing off item ${itemId}:`, error));
+
+  deleteItem(itemId);
 }
 
 function deleteItem(itemId) {

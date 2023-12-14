@@ -142,6 +142,26 @@ app.put('/updateVendorCode', (req, res) => {
     );
 });
 
+app.delete('/deleteItem/:itemId', (req, res) => {
+  const itemId = req.params.itemId;
+
+  try {
+    const result = client.query('DELETE FROM items WHERE id = $1 RETURNING *', [
+      itemId,
+    ]);
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: 'Item not found' });
+    } else {
+      const deletedItem = result.rows[0];
+      res.json(deletedItem);
+    }
+  } catch (error) {
+    console.error(`Error deleting item ${itemId}:`, error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

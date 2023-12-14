@@ -1,12 +1,50 @@
 const express = require('express');
 const { Client } = require('pg');
 const cors = require('cors');
+const session = require('express-session');
 
 const app = express();
 const port = 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use(
+  session({
+    secret: 'super-secret-key',
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+const users = [
+  { username: 'user1', password: 'password1', role: 'admin' },
+  { username: 'user2', password: 'password2', role: 'user' },
+];
+
+// Route to handle user login
+app.post('/api/login', (req, res) => {
+  const { username, password } = req.body;
+
+  const user = users.find(
+    u => u.username === username && u.password === password
+  );
+
+  if (user) {
+    req.session.user = user; // Store user data in the session
+    res.json({ success: true, role: user.role });
+  } else {
+    res.json({ success: false, message: 'Invalid username or password' });
+  }
+});
+
+// Route to check user authentication
+app.get('/api/check-auth', (req, res) => {
+  if (req.session.user) {
+    res.json({ authenticated: true, role: req.session.user.role });
+  } else {
+    res.json({ authenticated: false });
+  }
+});
 
 const client = new Client({
   user: 'postgres',

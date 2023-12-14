@@ -11,6 +11,10 @@
         padding: 0;
         background-color: #f4f4f4;
         color: #333;
+        background-image: url('wallpaper.jpg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
       }
 
       header {
@@ -78,7 +82,7 @@
       }
 
       li button {
-        background-color: #e74c3c;
+        background-color: #fee7e4;
         color: #fff;
         border: none;
         padding: 5px 8px;
@@ -93,41 +97,47 @@
   </head>
   <body>
     <header>
-      <h1>Warehouse Management System</h1>
+      <h1>База склада фирмы</h1>
     </header>
 
     <main>
-      <div id="loginForm">
-        <h2>Login</h2>
-        <label for="username">Username:</label>
-        <input type="text" id="username" />
-        <label for="password">Password:</label>
-        <input type="password" id="password" />
-        <button onclick="login()">Login</button>
-      </div>
-
-      <div id="adminPanel" style="display: none">
-        <!-- Admin panel content (items, forms, etc.) -->
-      </div>
+      <form id="loginForm">
+        <h2>Авторизация</h2>
+        <label for="username">Логин:</label>
+        <input type="text" id="username" name="username" required />
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" required />
+        <button type="submit">Войти</button>
+      </form>
     </main>
 
     <script>
-      // Sample username and password for demonstration purposes
-      const validUsername = 'admin';
-      const validPassword = 'password';
+      document
+        .getElementById('loginForm')
+        .addEventListener('submit', function (event) {
+          event.preventDefault();
 
-      function login() {
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+          const username = document.getElementById('username').value;
+          const password = document.getElementById('password').value;
 
-        if (username === validUsername && password === validPassword) {
-          // Show the admin panel after successful login
-          document.getElementById('loginForm').style.display = 'none';
-          document.getElementById('adminPanel').style.display = 'block';
-        } else {
-          alert('Invalid username or password. Please try again.');
-        }
-      }
+          fetch('http://127.0.0.1:3000/api/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+          })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                alert(`Login successful. Welcome, ${username}!`);
+                window.location.href = '/admin_panel.html'; // Redirect to a secured page
+              } else {
+                alert(data.message);
+              }
+            })
+            .catch(error => console.error('Error during login:', error));
+        });
     </script>
   </body>
 </html>

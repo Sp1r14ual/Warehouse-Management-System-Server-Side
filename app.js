@@ -142,6 +142,67 @@ app.put('/updateVendorCode', (req, res) => {
     );
 });
 
+app.get('/search', (req, res) => {
+  const searchTerm = req.query.searchTerm;
+  const searchCriteria = req.query.searchCriteria;
+
+  try {
+    let result;
+
+    // Perform search based on the selected criteria
+    switch (searchCriteria) {
+      case 'itemName':
+        result = client
+          .query('SELECT * FROM items WHERE name ILIKE $1', [`%${searchTerm}%`])
+          .then(data => res.json(data.rows));
+        break;
+      case 'vendorCode':
+        result = client
+          .query('SELECT * FROM items WHERE vendor_code ILIKE $1', [
+            `%${searchTerm}%`,
+          ])
+          .then(data => res.json(data.rows));
+        break;
+      case 'quantity':
+        result = client
+          .query('SELECT * FROM items WHERE quantity = $1', [searchTerm])
+          .then(data => res.json(data.rows));
+        break;
+      case 'weight':
+        result = client
+          .query('SELECT * FROM items WHERE weight = $1', [searchTerm])
+          .then(data => res.json(data.rows));
+        break;
+      case 'shelfLife':
+        result = client
+          .query('SELECT * FROM items WHERE shelf_life = $1', [searchTerm])
+          .then(data => res.json(data.rows));
+        break;
+      case 'shipper':
+        result = client
+          .query('SELECT * FROM items WHERE shipper ILIKE $1', [
+            `%${searchTerm}%`,
+          ])
+          .then(data => res.json(data.rows));
+        break;
+      case 'location':
+        result = client
+          .query('SELECT * FROM items WHERE location ILIKE $1', [
+            `%${searchTerm}%`,
+          ])
+          .then(data => res.json(data.rows));
+        break;
+      // Add more cases for other search criteria as needed
+      default:
+        res.status(400).json({ error: 'Invalid search criteria' });
+        return;
+    }
+  } catch (error) {
+    console.error('Error searching items:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 app.delete('/deleteItem/:itemId', (req, res) => {
   const itemId = req.params.itemId;
 

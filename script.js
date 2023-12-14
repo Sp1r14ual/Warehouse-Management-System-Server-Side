@@ -224,54 +224,18 @@ function addItem() {
 }
 
 function searchItems() {
-  const searchTerm = document.getElementById('searchTerm').value.toLowerCase();
+  const searchTerm = document.getElementById('searchTerm').value;
   const searchCriteria = document.getElementById('searchCriteria').value;
 
-  let filteredItems = items;
-
-  switch (searchCriteria) {
-    case 'itemName':
-      filteredItems = items.filter(item =>
-        item.name.toLowerCase().includes(searchTerm)
-      );
-      break;
-    case 'vendorCode':
-      filteredItems = items.filter(item =>
-        item.vendorCode.toLowerCase().includes(searchTerm)
-      );
-      break;
-    case 'quantity':
-      filteredItems = items.filter(item =>
-        item.quantity.toString().includes(searchTerm)
-      );
-      break;
-    case 'weight':
-      filteredItems = items.filter(item =>
-        item.weight.toString().includes(searchTerm)
-      );
-      break;
-    case 'shelfLife':
-      filteredItems = items.filter(item =>
-        item.shelfLife.toString().includes(searchTerm)
-      );
-      break;
-    case 'shipper':
-      filteredItems = items.filter(item =>
-        item.shipper.toLowerCase().includes(searchTerm)
-      );
-      break;
-    case 'location':
-      filteredItems = items.filter(item =>
-        item.location.toLowerCase().includes(searchTerm)
-      );
-      break;
-    default:
-      alert('Invalid search criteria');
-      break;
-  }
-
-  renderItems(filteredItems);
+  fetch(
+    `http://127.0.0.1:3000/search?searchTerm=${searchTerm}&searchCriteria=${searchCriteria}`
+  )
+    .then(response => response.json())
+    .then(searchResults => {
+      renderItems(searchResults);
+    })
+    .catch(error => console.error('Error searching items:', error));
 }
 
 // renderItems(items);
-fetchItems();
+// fetchItems();

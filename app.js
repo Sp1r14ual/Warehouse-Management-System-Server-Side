@@ -17,8 +17,10 @@ app.use(
 );
 
 const users = [
-  { username: 'user1', password: 'password1', role: 'admin' },
-  { username: 'user2', password: 'password2', role: 'user' },
+  { username: 'admin', password: 'admin123', role: 'admin' },
+  { username: 'manager', password: 'manager123', role: 'manager' },
+  { username: 'storekeeper', password: 'storekeeper123', role: 'storekeeper' },
+  { username: 'logistician', password: 'logistician123', role: 'logistician' },
 ];
 
 // Route to handle user login
@@ -245,16 +247,10 @@ app.delete('/deleteItem/:itemId', (req, res) => {
   const itemId = req.params.itemId;
 
   try {
-    const result = client.query('DELETE FROM items WHERE id = $1 RETURNING *', [
-      itemId,
-    ]);
-
-    if (result.rows.length === 0) {
-      res.status(404).json({ error: 'Item not found' });
-    } else {
-      const deletedItem = result.rows[0];
-      res.json(deletedItem);
-    }
+    client
+      .query('DELETE FROM items WHERE id = $1 RETURNING *', [itemId])
+      .then(data => res.json(data))
+      .catch(err => console.error('Error'));
   } catch (error) {
     console.error(`Error deleting item ${itemId}:`, error);
     res.status(500).send('Internal Server Error');

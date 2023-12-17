@@ -211,6 +211,7 @@ function addItem() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(newItem),
+    credentials: 'include',
   }).then(response => {
     if (response.ok) {
       alert('Success');

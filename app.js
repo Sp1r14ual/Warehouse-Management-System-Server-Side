@@ -171,15 +171,14 @@ app.put('/updateLocation', (req, res) => {
   const { id, location } = req.body;
 
   if (roles[current_user.role].changeLocation)
-    client
-      .query(`UPDATE items SET location = $1 WHERE id = $2 RETURNING *`, [
-        location,
-        id,
-      ])
-      .then(data => res.json(data.rows))
-      .catch(err =>
-        console.error(`Error updating location for item ${id}:`, err)
-      );
+    client.query(`UPDATE items SET location = $1 WHERE id = $2 RETURNING *`, [
+      location,
+      id,
+    ]);
+  // .then(data => res.json(data.rows))
+  // .catch(err =>
+  //   console.error(`Error updating location for item ${id}:`, err)
+  // );
   else throw new Error('403 Forbidden');
 });
 
@@ -187,15 +186,14 @@ app.put('/updateQuantity', (req, res) => {
   const { id, quantity } = req.body;
 
   if (roles[current_user.role].changeQuantity)
-    client
-      .query(`UPDATE items SET quantity = $1 WHERE id = $2 RETURNING *`, [
-        quantity,
-        id,
-      ])
-      .then(data => res.json(data.rows))
-      .catch(err =>
-        console.error(`Error updating location for item ${id}:`, err)
-      );
+    client.query(`UPDATE items SET quantity = $1 WHERE id = $2 RETURNING *`, [
+      quantity,
+      id,
+    ]);
+  // .then(data => res.json(data.rows))
+  // .catch(err =>
+  //   console.error(`Error updating location for item ${id}:`, err)
+  // );
   else throw new Error('403 Forbidden');
 });
 
@@ -203,15 +201,14 @@ app.put('/updateWeight', (req, res) => {
   const { id, weight } = req.body;
 
   if (roles[current_user.role].changeWeight)
-    client
-      .query(`UPDATE items SET weight = $1 WHERE id = $2 RETURNING *`, [
-        weight,
-        id,
-      ])
-      .then(data => res.json(data.rows))
-      .catch(err =>
-        console.error(`Error updating location for item ${id}:`, err)
-      );
+    client.query(`UPDATE items SET weight = $1 WHERE id = $2 RETURNING *`, [
+      weight,
+      id,
+    ]);
+  // .then(data => res.json(data.rows))
+  // .catch(err =>
+  //   console.error(`Error updating location for item ${id}:`, err)
+  // );
   else throw new Error('403 Forbidden');
 });
 
@@ -219,15 +216,14 @@ app.put('/updateShelfLife', (req, res) => {
   const { id, shelf_life } = req.body;
 
   if (roles[current_user.role].changeShelfLife)
-    client
-      .query(`UPDATE items SET shelf_life = $1 WHERE id = $2 RETURNING *`, [
-        shelf_life,
-        id,
-      ])
-      .then(data => res.json(data.rows))
-      .catch(err =>
-        console.error(`Error updating location for item ${id}:`, err)
-      );
+    client.query(`UPDATE items SET shelf_life = $1 WHERE id = $2 RETURNING *`, [
+      shelf_life,
+      id,
+    ]);
+  // .then(data => res.json(data.rows))
+  // .catch(err =>
+  //   console.error(`Error updating location for item ${id}:`, err)
+  // );
   else throw new Error('403 Forbidden');
 });
 
@@ -235,15 +231,14 @@ app.put('/updateShipper', (req, res) => {
   const { id, shipper } = req.body;
 
   if (roles[current_user.role].changeShipper)
-    client
-      .query(`UPDATE items SET shipper = $1 WHERE id = $2 RETURNING *`, [
-        shipper,
-        id,
-      ])
-      .then(data => res.json(data.rows))
-      .catch(err =>
-        console.error(`Error updating location for item ${id}:`, err)
-      );
+    client.query(`UPDATE items SET shipper = $1 WHERE id = $2 RETURNING *`, [
+      shipper,
+      id,
+    ]);
+  // .then(data => res.json(data.rows))
+  // .catch(err =>
+  //   console.error(`Error updating location for item ${id}:`, err)
+  // );
   else throw new Error('403 Forbidden');
 });
 
@@ -251,15 +246,14 @@ app.put('/updateVendorCode', (req, res) => {
   const { id, vendor_code } = req.body;
 
   if (roles[current_user.role].changeVendorCode)
-    client
-      .query(`UPDATE items SET vendor_code = $1 WHERE id = $2 RETURNING *`, [
-        vendor_code,
-        id,
-      ])
-      .then(data => res.json(data.rows))
-      .catch(err =>
-        console.error(`Error updating location for item ${id}:`, err)
-      );
+    client.query(
+      `UPDATE items SET vendor_code = $1 WHERE id = $2 RETURNING *`,
+      [vendor_code, id]
+    );
+  // .then(data => res.json(data.rows))
+  // .catch(err =>
+  //   console.error(`Error updating location for item ${id}:`, err)
+  // );
   else throw new Error('403 Forbidden');
 });
 
@@ -332,10 +326,9 @@ app.delete('/deleteItem/:itemId', (req, res) => {
 
   try {
     if (roles[current_user.role].delete)
-      client
-        .query('DELETE FROM items WHERE id = $1 RETURNING *', [itemId])
-        .then(data => res.json(data))
-        .catch(err => console.error('Error'));
+      client.query('DELETE FROM items WHERE id = $1 RETURNING *', [itemId]);
+    // .then(data => res.json(data))
+    // .catch(err => console.error('Error'));
     else throw new Error('403 Forbidden');
   } catch (error) {
     console.error(`Error deleting item ${itemId}:`, error);

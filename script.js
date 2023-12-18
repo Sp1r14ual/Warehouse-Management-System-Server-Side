@@ -89,8 +89,9 @@ function writeOffItem(itemId) {
     .then(deletedItem => {
       items = items.filter(item => item.id !== itemId);
       renderItems(items);
+      alert('Success');
     })
-    .catch(error => console.error(`Error writing off item ${itemId}:`, error));
+    .catch(error => alert('Error!'));
 
   deleteItem(itemId);
 }
@@ -110,8 +111,9 @@ function changeLocation(itemId) {
     },
     body: JSON.stringify({ id: itemId, location: newLocation }),
   })
+    .then(res => res.json())
     .then(() => alert('Success!'))
-    .catch(err => console.log('Fail'));
+    .catch(err => alert('Fail'));
 }
 
 function changeQuantity(itemId) {
@@ -124,8 +126,9 @@ function changeQuantity(itemId) {
     },
     body: JSON.stringify({ id: itemId, quantity: newQuantity }),
   })
+    .then(res => res.json())
     .then(() => alert('Success!'))
-    .catch(err => console.log('Fail'));
+    .catch(err => alert('Fail'));
 }
 
 function changeWeight(itemId) {
@@ -138,8 +141,9 @@ function changeWeight(itemId) {
     },
     body: JSON.stringify({ id: itemId, weight: newWeight }),
   })
+    .then(res => res.json())
     .then(() => alert('Success!'))
-    .catch(err => console.log('Fail'));
+    .catch(err => alert('Fail'));
 }
 
 function changeShelfLife(itemId) {
@@ -152,8 +156,9 @@ function changeShelfLife(itemId) {
     },
     body: JSON.stringify({ id: itemId, shelf_life: newShelfLife }),
   })
+    .then(res => res.json())
     .then(() => alert('Success!'))
-    .catch(err => console.log('Fail'));
+    .catch(err => alert('Fail'));
 }
 
 function changeShipper(itemId) {
@@ -166,8 +171,9 @@ function changeShipper(itemId) {
     },
     body: JSON.stringify({ id: itemId, shipper: newShipper }),
   })
+    .then(res => res.json())
     .then(() => alert('Success!'))
-    .catch(err => console.log('Fail'));
+    .catch(err => alert('Fail'));
 }
 
 function changeVendorCode(itemId) {
@@ -180,8 +186,9 @@ function changeVendorCode(itemId) {
     },
     body: JSON.stringify({ id: itemId, vendor_code: newVendorCode }),
   })
+    .then(res => res.json())
     .then(() => alert('Success!'))
-    .catch(err => console.log('Fail'));
+    .catch(err => alert('Fail'));
 }
 
 function addItem() {
@@ -211,7 +218,7 @@ function addItem() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(newItem),
-    credentials: 'include',
+    // credentials: 'include',
   }).then(response => {
     if (response.ok) {
       alert('Success');
